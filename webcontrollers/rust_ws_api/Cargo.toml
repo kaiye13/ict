@@ -1,0 +1,20 @@
+[package]
+name = "webcontroller-api"
+version = "0.0.1"
+authors = ["vdvr <vandervekenronanleon@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rocket = "0.4.4"
+serde_derive = "1.0.104"
+serde = "1.0.104"
+serde_json = "1.0.48"
+dotenv = "0.15.0"
+diesel = { version = "1.4.3", features = ["mysql", "r2d2"] }
+rocket_contrib = "0.4.4"
+
+[[bin]]
+name = "webcontroller-api"
+path = "main.rs"
