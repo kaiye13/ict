@@ -1,6 +1,6 @@
 # LINQ
 LINQ staat voor Language-Integrated Query, het is de technologie die zorgt voor query mogelijkheden in C#. Dit betekent dat het mogelijk gemaakt wordt om door middel van een SQL-achtige (aka query-syntax) van een datasource zij het XML, SQL,... informatie te ontrekken rechtstreeks in C#.
-## Selectie van element van type T voor collectie van elementen van type T.
+## Selectie van element van type T voor collectie van type T.
 Volgende voorbeelden zijn gelijkaardig aan elkander. Allen hebben ze de bedoeling om van een collection van artiesten **1** artiest te extracten en deze terug te geven **aan de hand van de artistId**.
 
 ### Met foreach
@@ -13,10 +13,14 @@ foreach (Artist artist in artists)
 	}
 }
 ```
-### Met LINQ 2 (zonder lambda).
+### Met LINQ (zonder lambda).
 ```C#
 return from artist in artists 
     where artist.Id == id
+```
+### Met LINQ (zonder lambda).
+```C#
+return artists.Where(A => A.Id == id)
 ```
 ### Met lambda expressie
 *Even terzijde* dit gaat nog 'makkelijker' door een lambda expressie.
@@ -104,7 +108,7 @@ Stel men heeft volgende datasource waar men wenst een LINQ query mee uit te voer
   </Items>  
 </PurchaseOrder>
 ```
-**Vraag:** Stel we willen van deze source alle onderdeelnummers te weten komen, we kunnen dit als volgt oplossen door middel van LINQ.
+**Vraag:** We willen van deze source alle onderdeelnummers te weten komen, we kunnen dit als volgt oplossen door middel van LINQ.
 1) Laad de datasource-file in als een variabele>
 ```C#
 XElement order = XElement.Load(
@@ -112,7 +116,7 @@ XElement order = XElement.Load(
 ```
 2) Ontwerp de LINQ query.
 In woorden:
->   Voor (een/elk) item in de order in het Item-veld geef mij het Onderdeelnummer.
+>   Voor (1/elk) item in de order in het Item-veld geef mij het Onderdeelnummer.
 3) Voer de LINQ query uit.
 Dus dit in code met in ons achterhoofd dat een LINQ query een IEnumerable<T> terug geeft.
 ```C#
@@ -123,7 +127,7 @@ foreach (var item in partNos)
 ```
 
 ### Iets meer diepgaand voorbeeld
-**Vraag:** Zelfde vraag alleen voor de item(s) waarvan de USPrice groter is dan 100.
+**Vraag:** We willen van deze source alle onderdeelnummers te weten komen waarvan de USPrice groter is dan 100.
 ```C#
 var partNum = from item in order.Descendants("Item")
               where (double)item.Element("USPrice") > 100
@@ -162,6 +166,19 @@ var query = from n in numbers
 var method = numbers
     .Where(n => n % 3 == 0)
     .Select(n => n * 2);
+```
+
+Dit kunnen wij ook toepassen op het **Iets meer diepgaand voorbeeld**, volgende originele code 
+```C#
+var partNum = from item in order.Descendants("Item")
+                  where (double)item.Element("USPrice") > 100
+                  select (string)item.Attribute("PartNumber");
+```
+wordt dan:
+```C#
+var partNum = order.Descendants("Item")
+                .Where(item => (double)item.Element("USPrice") > 100)
+                .Select(o => o.Attribute("PartNumber"));
 ```
 # TODOs
 ## TODO Functional Construction
