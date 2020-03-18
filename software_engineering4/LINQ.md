@@ -180,6 +180,9 @@ var partNum = order.Descendants("Item")
                 .Where(item => (double)item.Element("USPrice") > 100)
                 .Select(o => o.Attribute("PartNumber"));
 ```
+
+# Filtering & Sorteren ...
+[Goede link](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/basic-linq-query-operations)
 # TODOs
 ## TODO Functional Construction
 Het maken van XML Tree's adhv 1 statement [Functional Construction](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/functional-construction-linq-to-xml).
